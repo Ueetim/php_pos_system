@@ -6,7 +6,7 @@
 
 
     // if no page name is set, use "home" as default value
-    $controller = $_GET['page_name'] ?? "home";
+    $controller = $_GET['pg'] ?? "home";
 
     strtolower($controller); //convert value to lowercase
 
