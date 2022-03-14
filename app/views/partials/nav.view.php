@@ -1,4 +1,4 @@
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2)">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"><?=esc(APP_NAME)?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

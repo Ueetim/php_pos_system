@@ -8,7 +8,7 @@
     // if no page name is set, use "home" as default value
     $controller = $_GET['pg'] ?? "home";
 
-    strtolower($controller); //convert value to lowercase
+    $controller = strtolower($controller); //convert value to lowercase
 
     // if a file exists with controller name on controllers folder, require
     if (file_exists("../app/controllers/" . $controller . ".php")) {
