@@ -3,7 +3,7 @@
         
     </div>
 <!-- Footer -->
-<footer class="text-center text-lg-start bg-light text-muted" style="box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2)">
+<footer class="text-center text-lg-start bg-light text-muted mt-5" style="box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2)">
   <!-- Section: Social media -->
   <section
     class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
@@ -122,8 +122,7 @@
 
   <!-- Copyright -->
   <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-    © 2021 Copyright:
-    <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    © 2022
   </div>
   <!-- Copyright -->
 </footer>

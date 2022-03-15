@@ -20,3 +20,22 @@ function viewsPath($view) {
 function esc($str) {
     return htmlspecialchars($str);
 }
+
+// connect to db
+function db_connect() {
+    $DBHOST = "localhost";
+    $DBNAME = "pos_db";
+    $DBUSER = "root";
+    $DBPASS = "";
+    $DBDRIVER = "mysql";
+
+    $con = new PDO("mysql:host=localhost;dbname=pos_db", $DBUSER, $DBPASS); //PDO makes it easier to switch btw dbases (unlike mysqli)
+
+    show($con);
+}
+
+db_connect();
+
+function query($query, $data=array()) {
+    
+}

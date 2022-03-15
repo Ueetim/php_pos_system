@@ -1,4 +1,4 @@
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2)">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5" style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2)">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"><?=esc(APP_NAME)?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,7 +7,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.php?pg=pos">Point of sale</a>
+                    <a class="nav-link active" aria-current="page" href="index.php?pg=home">Point of sale</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="index.php?pg=admin">Admin</a>

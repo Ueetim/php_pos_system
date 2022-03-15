@@ -14,7 +14,8 @@
 <body>
 <!-- exempt some pages from displaying the nav bar -->
 <?php
-        $no_nav[] = "login";
+        // $no_nav[] = "login";
+        $no_nav[] = "default_value";
         // $no_nav[] = "signup";
     ?>
 
