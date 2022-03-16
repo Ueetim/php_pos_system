@@ -29,13 +29,31 @@ function db_connect() {
     $DBPASS = "";
     $DBDRIVER = "mysql";
 
-    $con = new PDO("mysql:host=localhost;dbname=pos_db", $DBUSER, $DBPASS); //PDO makes it easier to switch btw dbases (unlike mysqli)
+    // check for errors
+    try {
+        $con = new PDO("$DBDRIVER:host=$DBHOST;dbname=$DBNAME", $DBUSER, $DBPASS); //PDO makes it easier to switch btw dbases (unlike mysqli)
+    } catch(PDOException $e) {
+        echo $e->getMessage();
+    }
 
-    show($con);
+    return $con;
 }
 
 db_connect();
 
+// db queries --- todo: study more on PDO
 function query($query, $data=array()) {
-    
+    $con = db_connect();
+    $smt = $con->prepare($query);
+    $check = $smt->execute($data);
+
+    if($check) {
+        $result = $smt->fetchAll(PDO::FETCH_ASSOC); //get all the results as an associative array
+
+        // if the result is a non-empty array...
+        // if(is_array($result) && count(&result) > 0) {
+            
+        // }
+    }
+    return false;
 }
