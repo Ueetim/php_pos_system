@@ -51,9 +51,49 @@ function query($query, $data=array()) {
         $result = $smt->fetchAll(PDO::FETCH_ASSOC); //get all the results as an associative array
 
         // if the result is a non-empty array...
-        // if(is_array($result) && count(&result) > 0) {
-            
-        // }
+        if(is_array($result) && count($result) > 0) {
+            return $result;
+        }
     }
     return false;
+}
+
+// allowed columns for db insert
+function allowed_columns($data, $table) {
+    if ($table == "users") {
+        $columns = [
+            'username',
+            'email',
+            'password',
+            'role',
+            'image',
+            'date',
+        ];
+
+        // remove values that are not in the array
+        foreach ($data as $key => $value) {
+            if (!in_array($key, $columns)) {
+                unset($data[$key]);
+            }
+        }
+        return $data;
+    }
+}
+
+// insert function
+function insert($data, $table) {
+    // get clean array by selecting allowed columns
+    $clean_array = allowed_columns($data, $table);
+
+    // get the keys from the clean array
+    $keys = array_keys($clean_array);
+
+    $query = "INSERT INTO $table";
+
+    // implode is used to separate the keys where commas are present
+    $query .= "(".implode(",", $keys) .") values ";
+    $query .= "(:".implode(",:", $keys) .")"; // values have same name as table columns(keys)
+
+    query($query, $clean_array);
+
 }
