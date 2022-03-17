@@ -97,3 +97,49 @@ function insert($data, $table) {
     query($query, $clean_array);
 
 }
+
+// input validation
+function validate($data, $table) {
+    $errors = [];
+
+    if ($table == "users"){
+        // check username
+        if(empty($data['username'])) {
+            // if no input...
+            $errors['username'] = "Username is required";
+        } else if (!preg_match('/[a-zA-Z]/', $data['username'])) { //use regex to ensure only letters are allowed
+            $errors['username'] = "Only letters allowed";
+
+        }
+
+        // check email
+        if(empty($data['email'])) {
+            // if no input...
+            $errors['email'] = "Email is required";
+        } else if (filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = "Email is not valid";
+
+        }
+
+        // check password
+        if(empty($data['password'])) {
+            // if no input...
+            $errors['password'] = "Password is required";
+        } else if ($data['password'] !== $data['confirm_password']) {
+            $errors['confirm_password'] = "Passwords do not match";
+        } else if (strlen($data['password']) < 8) {
+            // check length of password
+            $errors['password'] = 'Password must be at least 8 characters long';
+        }
+    }
+    return $errors;
+
+}
+
+// for retaining value of input
+function set_value($key, $default = "") {
+    if (!empty($_POST[$key])) {
+        return $_POST[$key];
+    }
+    return $default;
+}
