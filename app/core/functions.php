@@ -21,6 +21,12 @@ function esc($str) {
     return htmlspecialchars($str);
 }
 
+// redirect
+function redirect($page) {
+    header("Location: index.php?pg=" .$page);
+    die; //necessary in case someone disables redirects on their browser
+}
+
 // connect to db
 function db_connect() {
     $DBHOST = "localhost";
@@ -98,6 +104,21 @@ function insert($data, $table) {
 
 }
 
+// where function
+function where($data, $table) {
+    $keys = array_keys($data);
+
+    $query = "SELECT * FROM $table WHERE ";
+
+    foreach ($keys as $key) {
+        $query .= "$key = :$key && ";
+    }
+
+    $query = trim($query, "&& ");
+
+    return query($query, $data);
+}
+
 // input validation
 function validate($data, $table) {
     $errors = [];
@@ -116,7 +137,7 @@ function validate($data, $table) {
         if(empty($data['email'])) {
             // if no input...
             $errors['email'] = "Email is required";
-        } else if (filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+        } else if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = "Email is not valid";
 
         }
@@ -142,4 +163,9 @@ function set_value($key, $default = "") {
         return $_POST[$key];
     }
     return $default;
+}
+
+// user authentication
+function authenticate($row) {
+    $_SESSION["USER"] = $row;
 }

@@ -14,7 +14,7 @@
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Email</span>
-                <input value="<?= set_value('email') ?>" type="email" class="form-control <?= !empty($errors['email']) ? 'border-danger':''?>" name="email" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1">
+                <input value="<?= set_value('email') ?>" type="text" class="form-control <?= !empty($errors['email']) ? 'border-danger':''?>" name="email" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1">
                 <?php if(!empty($errors['email'])): ?>
                     <small class="text-danger col-12"><?= $errors['email'] ?></small>
                 <?php endif; ?>

@@ -8,11 +8,17 @@
             <br>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1" autofocus>Email</span>
-                <input type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+                <input type="text" value="<?= set_value('email') ?>" name="email" class="form-control <?= !empty($errors['email']) ? 'border-danger':''?>" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+                <?php if(!empty($errors['email'])): ?>
+                    <small class="text-danger col-12"><?= $errors['email'] ?></small>
+                <?php endif; ?>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Password</span>
-                <input type="password" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="password" value="<?= set_value('password') ?>" name="password" class="form-control <?= !empty($errors['email']) ? 'border-danger':''?>" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
+                <?php if(!empty($errors['password'])): ?>
+                    <small class="text-danger col-12"><?= $errors['password'] ?></small>
+                <?php endif; ?>
             </div>
 
             <div class="row">
