@@ -27,42 +27,10 @@ function redirect($page) {
     die; //necessary in case someone disables redirects on their browser
 }
 
-// connect to db
-function db_connect() {
-    $DBHOST = "localhost";
-    $DBNAME = "pos_db";
-    $DBUSER = "root";
-    $DBPASS = "";
-    $DBDRIVER = "mysql";
 
-    // check for errors
-    try {
-        $con = new PDO("$DBDRIVER:host=$DBHOST;dbname=$DBNAME", $DBUSER, $DBPASS); //PDO makes it easier to switch btw dbases (unlike mysqli)
-    } catch(PDOException $e) {
-        echo $e->getMessage();
-    }
+// db_connect();
 
-    return $con;
-}
 
-db_connect();
-
-// db queries --- todo: study more on PDO
-function query($query, $data=array()) {
-    $con = db_connect();
-    $smt = $con->prepare($query);
-    $check = $smt->execute($data);
-
-    if($check) {
-        $result = $smt->fetchAll(PDO::FETCH_ASSOC); //get all the results as an associative array
-
-        // if the result is a non-empty array...
-        if(is_array($result) && count($result) > 0) {
-            return $result;
-        }
-    }
-    return false;
-}
 
 // allowed columns for db insert
 function allowed_columns($data, $table) {
