@@ -9,6 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // check for errors
     $errors = validate($_POST, "users");
     if (empty($errors)) {
+        // hash pw
+        $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
         insert($_POST, "users");
 
         authenticate($_POST);

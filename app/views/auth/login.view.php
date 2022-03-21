@@ -15,7 +15,7 @@
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Password</span>
-                <input type="password" value="<?= set_value('password') ?>" name="password" class="form-control <?= !empty($errors['email']) ? 'border-danger':''?>" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="password" value="<?= set_value('password') ?>" name="password" class="form-control <?= !empty($errors['password']) ? 'border-danger':''?>" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
                 <?php if(!empty($errors['password'])): ?>
                     <small class="text-danger col-12"><?= $errors['password'] ?></small>
                 <?php endif; ?>
