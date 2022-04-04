@@ -7,6 +7,7 @@
     <title><?=esc(APP_NAME)?></title>
 
     <!-- links -->
+    <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/all.min.css">
 </head>

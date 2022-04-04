@@ -21,7 +21,19 @@
             </ul>
         </div>
         <div class="border col p-3">
-            <h4><?=strtoupper($tab)?></h4>
+            <!-- display content from appropriate files for each tab -->
+            <?php 
+                switch ($tab) {
+                    case 'products':
+                        require viewsPath('admin/products');
+                        break;
+                    
+                    default:
+                        # code...
+                        break;
+                }
+            
+            ?>
         </div>
     </div>
 </div>
