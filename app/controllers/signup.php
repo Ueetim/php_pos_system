@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $_POST["date"] = date("Y-m-d H:i:s");
 
     // check for errors
-    $errors = $user->validate($_POST, "users");
+    $errors = $user->validate($_POST);
     if (empty($errors)) {
         // hash pw
         $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);

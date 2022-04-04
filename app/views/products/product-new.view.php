@@ -8,20 +8,26 @@
             <div class="mb-3">
                 <label for="productControlInput1" class="form-label">Product description</label>
                 <input type="text" name="description" class="form-control" id="productControlInput1" placeholder="Product description">
+                <?php if(!empty($errors['description'])): ?>
+                    <small class="text-danger col-12"><?= $errors['description'] ?></small>
+                <?php endif; ?>
             </div>
 
-            <!-- quantity -->
+            <!-- barcode -->
             <div class="mb-3">
                 <label for="barcodeControlInput1" class="form-label">Barcode <small class="text-muted">(optional)</small></label>
-                <input type="text" name="description" class="form-control" id="barcodeControlInput1" placeholder="Product barcode">
+                <input type="text" name="barcode" class="form-control" id="barcodeControlInput1" placeholder="Product barcode">
             </div>
 
             <!-- quantity -->
             <div class="input-group mb-3">
                 <span class="input-group-text">Qty</span>
                 <input type="number" name="qty" value="1" class="form-control" placeholder="Quantity" aria-label="Quantity">
-                <span class="input-group-text">Amount</span>
+                <span class="input-group-text">Amount (&#8358;)</span>
                 <input type="number" value="0.00" step="0.05" name="amount" class="form-control" placeholder="Amount" aria-label="Amount">
+                <?php if(!empty($errors['qty'])): ?>
+                    <small class="text-danger col-12"><?= $errors['qty'] ?></small>
+                <?php endif; ?>
             </div>
 
             <!-- image upload -->
