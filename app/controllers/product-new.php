@@ -9,11 +9,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $_POST["date"] = date("Y-m-d H:i:s");
 
     // if barcode doesnt exist, generate
-    $_POST["barcode"] = empty($_POST['barcode']) ? $product->generate_barcode():$POST['barcode'];
+    $_POST["barcode"] = empty($_POST['barcode']) ? $product->generate_barcode() : $POST['barcode'];
+
+    // check if a file  is uploaded and add to POST
+    if (!empty($_FILES)) {
+        $_POST['image'] = $_FILES['image'];
+    }
 
     // check for errors
     $errors = $product->validate($_POST, "product");
-    
+
     if (empty($errors)) {
         // hash pw
         $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -24,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         redirect("index.php?pg=admin&tab=products");
     }
-
 }
 
 require viewsPath("products/product-new");
