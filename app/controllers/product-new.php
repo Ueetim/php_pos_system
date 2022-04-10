@@ -20,8 +20,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $errors = $product->validate($_POST, "product");
 
     if (empty($errors)) {
-        // hash pw
-        $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        //create new folder for image uploads 
+        $folder = "uploads/";
+        if (!file_exists($folder)) { // if folder does not exist, create
+            mkdir($folder, 0777, true);
+        }
+
+        $ext = strtolower(pathinfo($_POST['image']['name'],PATHINFO_EXTENSION)); //get file extension
+        $destination = $folder . $product->generate_filename($ext);
+
+        move_uploaded_file($_POST['image']['tmp_name'], $destination);
+        $_POST['image'] = $destination;
 
         $product->insert($_POST);
 
