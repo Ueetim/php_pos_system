@@ -20,12 +20,16 @@
         <?php if(!empty($products)):?> 
             <?php foreach ($products as $product): ?>
                 <tr>
-                    <td><?=esc($product->barcode)?></td>
-                    <td><?=esc($product->description)?></td>
-                    <td><?=esc($product->qty)?></td>
-                    <td><?=esc($product->amount)?></td>
-                    <td>Image</td>
-                    <td><?=esc($product->date)?></td>
+                    <td><?=esc($product['barcode'])?></td>
+                    <td>
+                        <a href="index.php?pg=product-single&id=<?=$product['barcode']?>">
+                            <?=esc($product['description'])?>
+                        </a>
+                    </td>
+                    <td><?=esc($product['qty'])?></td>
+                    <td><?=esc($product['amount'])?></td>
+                    <td><img src="<?=esc($product['image'])?>" alt="" style="width: 100%; max-width: 70px"></td>
+                    <td><?=esc($product['date'])?></td>
                     <td>
                         <button class="btn btn-primary btn-sm">Edit</button>
                         <button class="btn btn-danger btn-sm">Delete</button>
