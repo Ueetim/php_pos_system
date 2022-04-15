@@ -27,7 +27,7 @@
                 <span class="input-group-text">Qty</span>
                 <input type="number" name="qty" value="1" class="form-control <?= !empty($errors['qty']) ? 'border-danger':''?>" placeholder="Quantity" aria-label="Quantity">
                 <span class="input-group-text">Amount (&#8358;)</span>
-                <input type="number" value="0.00" step="0.05" name="amount" class="form-control <?= !empty($errors['amount']) ? 'border-danger':''?>" placeholder="Amount" aria-label="Amount">
+                <input type="number" value="0.00" step="0.01" name="amount" class="form-control <?= !empty($errors['amount']) ? 'border-danger':''?>" placeholder="Amount" aria-label="Amount">
                 <?php if(!empty($errors['qty'])): ?>
                     <small class="text-danger col-12"><?= $errors['qty'] ?></small>
                 <?php endif; ?>

@@ -8,6 +8,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $_POST["date"] = date("Y-m-d H:i:s");
 
+    $_POST['user_id'] = auth('id'); //use the auth function to fetch user id
+
+    $_POST['views'] = 0;
+
     // if barcode doesnt exist, generate
     $_POST["barcode"] = empty($_POST['barcode']) ? $product->generate_barcode() : $POST['barcode'];
 
@@ -36,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         // authenticate($_POST);
 
-        redirect("index.php?pg=admin&tab=products");
+        redirect("admin&tab=products");
     }
 }
 

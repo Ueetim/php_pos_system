@@ -59,9 +59,9 @@ class Product extends Model
             $errors['image'] = "Product image is required";
         } else if (!($data['image']['type'] == "image/jpeg" || $data['image']['type'] == "image/png")) { //check for the file extension
             $errors['image'] = "Image must be a valid JPEG or PNG file";
-        } else if (!($data['image']['error'] > 0)) {
+        } else if (($data['image']['error'] > 0)) {
             $errors['image'] = "The image failed to upload. Error no. " . $data['image']['error'];
-        } else if (!($data['image']['size'] > $size)) {
+        } else if (($data['image']['size'] > $size)) {
             $errors['image'] = "The image must be lower than " . $max_size . "mb";
         }
 
