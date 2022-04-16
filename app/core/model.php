@@ -61,4 +61,25 @@ class Model extends Database
 
         return $db->query($query, $data);
     }
+
+    // get first item
+    public function first($data)
+    {
+        $keys = array_keys($data);
+
+        $query = "SELECT * FROM $this->table WHERE ";
+
+        foreach ($keys as $key) {
+            $query .= "$key = :$key && ";
+        }
+
+        $query = trim($query, "&& ");
+
+        $db = new Database;
+        if ($res = $db->query($query, $data)) {
+            return $res[0];
+        }
+
+        return false;
+    }
 }
