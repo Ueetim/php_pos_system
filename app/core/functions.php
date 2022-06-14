@@ -24,7 +24,7 @@ function esc($str) {
 // redirect
 function redirect($page) {
     header("Location: index.php?pg=" .$page);
-    die; //necessary in case someone disables redirects on their browser
+    die; //necessary in case user disables redirects on their browser
 }
 
 
@@ -44,7 +44,7 @@ function authenticate($row) {
 // if user is authenticated, return. else, return 'unknown'
 function auth($column) {
     if (!empty($_SESSION['USER'][$column])) {
-        return $_SESSION['USER'][$column]; 
+        return $_SESSION['USER'][$column];
     }
     return "Unknown";
 }

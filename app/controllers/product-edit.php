@@ -3,14 +3,14 @@
 $errors = [];
 
 // check for id to ensure product exists
-$id = $_GET['id'] ?? null;
+$id = $_GET['id'] ?? null; //if product doesnt exist, set id to null
 
 $product = new Product();
 
-$row = $product
+$row = $product->first(['id'=>$id]);
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
+// $row checks if product exists
+if ($_SERVER['REQUEST_METHOD'] == "POST" && $row) {
 
     $_POST["date"] = date("Y-m-d H:i:s");
 
