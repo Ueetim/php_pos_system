@@ -82,4 +82,29 @@ class Model extends Database
 
         return false;
     }
+
+    // update db row
+    public function update($id, $data)
+    {
+        // get clean array by selecting allowed columns
+        $clean_array = $this->get_allowed_columns($data, $this->table);
+
+        // get the keys from the clean array
+        $keys = array_keys($clean_array);
+
+        $query = "UPDATE $this->table SET ";
+
+        foreach ($keys as $column) {
+            $query .= $column . "=:" . $column . ",";
+        }
+
+        $query = trim($query, ","); //remove the last comma
+
+        $query .= " where id = :id";
+
+        $clean_array['id'] = $id;
+        $db = new Database;
+        $db->query($query, $clean_array);
+
+    }
 }

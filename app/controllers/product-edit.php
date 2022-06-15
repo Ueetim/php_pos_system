@@ -13,7 +13,7 @@ $row = $product->first(['id'=>$id]);
 if ($_SERVER['REQUEST_METHOD'] == "POST" && $row) {
 
     // if barcode doesnt exist, generate
-    $_POST["barcode"] = empty($_POST['barcode']) ? $product->generate_barcode() : $POST['barcode'];
+    // $_POST["barcode"] = empty($_POST['barcode']) ? $product->generate_barcode() : $POST['barcode'];
 
     // check if a file  is uploaded and add to POST
     if (!empty($_FILES['image']['name'])) { //check if image already exists
@@ -36,12 +36,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && $row) {
             
             move_uploaded_file($_POST['image']['tmp_name'], $destination);
             $_POST['image'] = $destination;
+            
+            // delete old image
+            if (file_exists($row['image'])) {
+                unlink($row['image']);
+            }
         }
 
-        // $product->insert($_POST);
-
+        $product->update($row['id'], $_POST);
+        
+        
         // authenticate($_POST);
-
+        
         redirect("admin&tab=products");
     }
 }

@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $_POST["barcode"] = empty($_POST['barcode']) ? $product->generate_barcode() : $POST['barcode'];
 
     // check if a file  is uploaded and add to POST
-    if (!empty($_FILES)) {
+    if (!empty($_FILES['image']['name'])) { 
         $_POST['image'] = $_FILES['image'];
     }
 
