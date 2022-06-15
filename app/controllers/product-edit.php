@@ -12,22 +12,16 @@ $row = $product->first(['id'=>$id]);
 // $row checks if product exists
 if ($_SERVER['REQUEST_METHOD'] == "POST" && $row) {
 
-    $_POST["date"] = date("Y-m-d H:i:s");
-
-    $_POST['user_id'] = auth('id'); //use the auth function to fetch user id
-
-    $_POST['views'] = 0;
-
     // if barcode doesnt exist, generate
     $_POST["barcode"] = empty($_POST['barcode']) ? $product->generate_barcode() : $POST['barcode'];
 
     // check if a file  is uploaded and add to POST
-    if (!empty($_FILES)) {
+    if (!empty($_FILES['image']['name'])) { //check if image already exists
         $_POST['image'] = $_FILES['image'];
     }
 
     // check for errors
-    $errors = $product->validate($_POST, "product");
+    $errors = $product->validate($_POST, $row['id']);
 
     if (empty($errors)) {
         //create new folder for image uploads 
@@ -36,13 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && $row) {
             mkdir($folder, 0777, true);
         }
 
-        $ext = strtolower(pathinfo($_POST['image']['name'],PATHINFO_EXTENSION)); //get file extension
-        $destination = $folder . $product->generate_filename($ext);
+        if (!empty($_POST['image'])) {
+            $ext = strtolower(pathinfo($_POST['image']['name'],PATHINFO_EXTENSION)); //get file extension
+            $destination = $folder . $product->generate_filename($ext);
+            
+            move_uploaded_file($_POST['image']['tmp_name'], $destination);
+            $_POST['image'] = $destination;
+        }
 
-        move_uploaded_file($_POST['image']['tmp_name'], $destination);
-        $_POST['image'] = $destination;
-
-        $product->insert($_POST);
+        // $product->insert($_POST);
 
         // authenticate($_POST);
 

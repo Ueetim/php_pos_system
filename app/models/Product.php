@@ -20,7 +20,7 @@ class Product extends Model
 
 
     // input validation
-    public function validate($data)
+    public function validate($data, $id = null)
     {
         $errors = [];
 
@@ -50,19 +50,22 @@ class Product extends Model
 
         // check image
 
-        // image size
-        $max_size = 4;
-        $size = $max_size * (1024 * 1024); //convert from bytes to mb
-
-        if (empty($data['image'])) {
-            // if no input...
-            $errors['image'] = "Product image is required";
-        } else if (!($data['image']['type'] == "image/jpeg" || $data['image']['type'] == "image/png")) { //check for the file extension
-            $errors['image'] = "Image must be a valid JPEG or PNG file";
-        } else if (($data['image']['error'] > 0)) {
-            $errors['image'] = "The image failed to upload. Error no. " . $data['image']['error'];
-        } else if (($data['image']['size'] > $size)) {
-            $errors['image'] = "The image must be lower than " . $max_size . "mb";
+        // check if id exists. so image upload can be skipped on edit
+        if(!$id || ($id && !empty($data['image']))){
+            // image size
+            $max_size = 4;
+            $size = $max_size * (1024 * 1024); //convert from bytes to mb
+    
+            if (empty($data['image'])) {
+                // if no input...
+                $errors['image'] = "Product image is required";
+            } else if (!($data['image']['type'] == "image/jpeg" || $data['image']['type'] == "image/png")) { //check for the file extension
+                $errors['image'] = "Image must be a valid JPEG or PNG file";
+            } else if (($data['image']['error'] > 0)) {
+                $errors['image'] = "The image failed to upload. Error no. " . $data['image']['error'];
+            } else if (($data['image']['size'] > $size)) {
+                $errors['image'] = "The image must be lower than " . $max_size . "mb";
+            }
         }
 
         return $errors;
