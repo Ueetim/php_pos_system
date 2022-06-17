@@ -48,3 +48,5 @@ function auth($column) {
     }
     return "Unknown";
 }
+
+// format date and time
