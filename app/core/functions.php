@@ -49,4 +49,27 @@ function auth($column) {
     return "Unknown";
 }
 
-// format date and time
+// image cropping
+function crop($filename, $size = 600) {
+    // grab file name without extension
+    $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+    // new file
+    $cropped_file = str_replace(".".$ext, "_cropped.".$ext, $filename);
+
+    // alternative method for replacing extension
+    //$cropped_file = preg_replace("/\.$ext$/", "_cropped.".$ext, $filename);
+
+    echo $cropped_file;
+    return;
+
+    // imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h); //fn to crop or resize an img
+
+    // save destination img
+    // imagejpeg($dst_image, $cropped_file);
+
+    // imagedestroy($dst_image);
+    // imagedestroy($src_image);
+
+    return $cropped_file;
+}
