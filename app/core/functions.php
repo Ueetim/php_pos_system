@@ -57,19 +57,80 @@ function crop($filename, $size = 600) {
     // new file
     $cropped_file = str_replace(".".$ext, "_cropped.".$ext, $filename);
 
-    // alternative method for replacing extension
-    //$cropped_file = preg_replace("/\.$ext$/", "_cropped.".$ext, $filename);
+    /* alternative method for replacing extension
+        *$cropped_file = preg_replace("/\.$ext$/", "_cropped.".$ext, $filename); 
+    */
 
-    echo $cropped_file;
-    return;
+    // create image resource
+    switch ($ext) {
+        case 'jpg':
+        case 'jpeg':
+            $src_image = imagecreatefromjpeg($filename);
+            break;
+            
+        case 'png':
+            $src_image = imagecreatefrompng($filename);
+            break;
 
-    // imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h); //fn to crop or resize an img
+        case 'gif':
+            $src_image = imagecreatefromgif($filename);
+            break;
+        
+        default:
+            return $filename;
+            break;
+    }
+    
+    // set cropping params
+    
+    // assign values
+    $dst_x = 0;
+    $dst_y = 0;
+    $dst_w = (int)$size;
+    $dst_h = (int)$size;
 
-    // save destination img
-    // imagejpeg($dst_image, $cropped_file);
+    $original_width = imagesx($src_image); //get the image width
+    $original_height = imagesy($src_image); // get the image height
 
-    // imagedestroy($dst_image);
-    // imagedestroy($src_image);
+    // check if width or height is larger
+    if($original_width < $original_height) {
+        $src_x = 0;
+        $src_y = ($original_height - $original_width) / 2;
+        $src_w = $original_width;
+        $src_h = $original_width;
+    } else {
+        $src_x = ($original_width - $original_height) / 2;
+        $src_y = 0;
+        $src_w = $original_height;
+        $src_h = $original_height;
+    }
+    
+    $dst_image = imagecreatetruecolor((int)$size, (int)$size);
+
+    imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h); //fn to crop or resize an img
+
+    // save final img
+    switch ($ext) {
+        case 'jpg':
+        case 'jpeg':
+            imagejpeg($dst_image, $cropped_file, 90);
+            break;
+            
+        case 'png':
+            imagepng($dst_image, $cropped_file);
+            break;
+
+        case 'gif':
+            imagegif($dst_image, $cropped_file);
+            break;
+        
+        default:
+            return $filename;
+            break;
+    }
+
+    imagedestroy($dst_image);
+    imagedestroy($src_image);
 
     return $cropped_file;
 }
