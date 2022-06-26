@@ -116,4 +116,19 @@
         
     </div>
 
+    <script>
+        // fetch data from db
+        function getData() {
+            // create ajax request to db
+            let ajax = new XMLHttpRequest();
+
+            ajax.addEventListener("readystatechange", (e)=>{
+                console.log(ajax.responseText);
+            })
+
+            ajax.open('post', '', true); //empty string indicates current page
+            ajax.send();
+        }
+    </script>
+
     <?php require viewsPath("partials/footer"); ?>

@@ -57,6 +57,11 @@ function crop($filename, $size = 600) {
     // new file
     $cropped_file = str_replace(".".$ext, "_cropped.".$ext, $filename);
 
+    // if file already exists, return
+    if(file_exists($cropped_file)) {
+        return $cropped_file;
+    }
+
     /* alternative method for replacing extension
         *$cropped_file = preg_replace("/\.$ext$/", "_cropped.".$ext, $filename); 
     */
