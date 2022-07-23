@@ -1,5 +1,3 @@
-<!-- contains db table-related classes -->
-
 <?php
 
 // db model
@@ -45,7 +43,7 @@ class Model extends Database
     }
 
     // where function
-    public function where($data)
+    public function where($data, $limit = 10, $offset = 0)
     {
         $keys = array_keys($data);
 
@@ -57,9 +55,23 @@ class Model extends Database
 
         $query = trim($query, "&& ");
 
+        // limit and offset needed for pagination
+        $query .= " limit $limit offset $offset";
+
         $db = new Database;
 
         return $db->query($query, $data);
+    }
+
+    // get all data from table function
+    public function getAll($limit = 10, $offset = 0)
+    {
+
+        $query = "SELECT * FROM $this->table limit $limit offset $offset";
+
+        $db = new Database;
+
+        return $db->query($query);
     }
 
     // get first item

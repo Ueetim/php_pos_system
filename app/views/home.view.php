@@ -118,17 +118,49 @@
 
     <script>
         // fetch data from db
-        function getData() {
+        function sendData(data) {
             // create ajax request to db
             let ajax = new XMLHttpRequest();
 
             ajax.addEventListener("readystatechange", (e)=>{
-                console.log(ajax.responseText);
+                if (ajax.readyState == 4) {
+                    if (ajax.status == 200) {
+                        handleResult(ajax.responseText);
+                    } else {
+                        console.log("An error occurred. " + ajax.status);
+                    }
+                }
             })
 
-            ajax.open('post', '', true); //empty string indicates current page
+            ajax.open('post', 'index.php?pg=ajax', true); //empty string indicates current page
+            ajax.setRequestHeader("Content-type","application/json");
             ajax.send();
+
+            // console.log(ajax.Response.ContentType)
         }
+
+        // process the received result
+        function handleResult(result){
+            // result = result.replace(/<\/?[^>]+>/gi, '');
+            // result = JSON.stringify(result)
+            let obj = JSON.parse(result);
+            console.log(result)
+
+            let products = document.querySelector(".js-products");
+
+            if (typeof obj != "undefined"){
+                // valid json
+
+                products.innerHTML = "";
+                
+                for (let i = 0; i < obj.length; i++) {
+                    products.innerHTML += obj[i].description + "<br>";
+                }
+            }
+            
+        }
+
+        sendData();
     </script>
 
     <?php require viewsPath("partials/footer"); ?>

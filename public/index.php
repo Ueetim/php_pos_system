@@ -1,8 +1,9 @@
-<!-- this page contains basic routing -->
-
 <?php 
 
     session_start();
+
+   #prevent controllers from being opened directly. Reference home.php
+    define("ABSPATH", true);
 
     require "../app/core/init.php";
 
