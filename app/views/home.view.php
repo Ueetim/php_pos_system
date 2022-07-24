@@ -16,7 +16,7 @@
 
             <!-- product -->
             <div class="js-products d-flex" style="overflow-y:auto; height:90%; flex-wrap:wrap;">
-                <div class="card m-2 border-0" style="width:170px; height:170px">
+                <!-- <div class="card m-2 border-0" style="width:170px; height:170px">
                     <a href="" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
                         <img src="assets/images/drinks-soft-1.jpg" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
                     </a>
@@ -54,7 +54,7 @@
                         <div class="text-muted">Cheese burger</div>
                         <div class=""><strong>&#8358;2000.00</strong></div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <!-- product ends -->
         </div>
@@ -154,7 +154,16 @@
                 products.innerHTML = "";
                 
                 for (let i = 0; i < obj.length; i++) {
-                    products.innerHTML += obj[i].description + "<br>";
+                    // products.innerHTML += obj[i].description + "<br>";
+                    products.innerHTML += `<div class="card m-2 border-0" style="width:170px; height:170px">
+                    <a href="" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
+                        <img src="${obj[i].image}" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
+                    </a>
+                    <div class="p-2">
+                        <div class="text-muted">${obj[i].description}</div>
+                        <div class=""><strong>&#8358;${obj[i].amount}</strong></div>
+                    </div>
+                </div>`;
                 }
             }
             

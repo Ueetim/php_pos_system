@@ -43,7 +43,7 @@ class Model extends Database
     }
 
     // where function
-    public function where($data, $limit = 10, $offset = 0)
+    public function where($data, $limit = 10, $offset = 0, $order = 'desc', $order_column = 'id')
     {
         $keys = array_keys($data);
 
@@ -56,7 +56,7 @@ class Model extends Database
         $query = trim($query, "&& ");
 
         // limit and offset needed for pagination
-        $query .= " limit $limit offset $offset";
+        $query .= " order by $order_column $order limit $limit offset $offset";
 
         $db = new Database;
 
@@ -64,10 +64,10 @@ class Model extends Database
     }
 
     // get all data from table function
-    public function getAll($limit = 10, $offset = 0)
+    public function getAll($limit = 10, $offset = 0, $order = 'desc', $order_column = 'id')
     {
 
-        $query = "SELECT * FROM $this->table limit $limit offset $offset";
+        $query = "SELECT * FROM $this->table order by $order_column $order limit $limit offset $offset";
 
         $db = new Database;
 
