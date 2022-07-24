@@ -9,13 +9,13 @@
             <div style="text-align:center" class="row">
                 <div class="input-group mb-3" style="display: flex; align-items: center; justify-content:center; gap: 5px">
                     <h5>Items</h5>
-                    <input style="height:40px" type="text" class="ms-4 form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" autofocus >
+                    <input id="js-search" style="height:40px" type="text" class="ms-4 form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" autofocus >
                     <span style="height:40px" class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
                 </div>
             </div>
 
             <!-- product -->
-            <div class="js-products d-flex" style="overflow-y:auto; height:90%; flex-wrap:wrap;">
+            <div class="js-products d-flex" style="overflow-y:auto; height:90%; flex-wrap:wrap; justify-content:center">
                 <!-- <div class="card m-2 border-0" style="width:170px; height:170px">
                     <a href="" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
                         <img src="assets/images/drinks-soft-1.jpg" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
@@ -117,9 +117,25 @@
     </div>
 
     <script>
-        // fetch data from db
+
+        // search feature
+        let searchBox = document.querySelector('#js-search');
+        searchBox.addEventListener('input', (e)=>{
+            let text = e.target.value.trim();
+            console.log(text);
+            // if (text == "") 
+                // return;
+            
+            let data = {};
+            data.dataType = "search"; // to detect a search
+            data.text = text;
+
+            sendData(data);
+        })
+
+
+        // create ajax request to db
         function sendData(data) {
-            // create ajax request to db
             let ajax = new XMLHttpRequest();
 
             ajax.addEventListener("readystatechange", (e)=>{
@@ -134,28 +150,25 @@
 
             ajax.open('post', 'index.php?pg=ajax', true); //empty string indicates current page
             ajax.setRequestHeader("Content-type","application/json");
-            ajax.send();
 
-            // console.log(ajax.Response.ContentType)
+            data = JSON.stringify(data);
+            ajax.send(data);
         }
 
         // process the received result
         function handleResult(result){
-            // result = result.replace(/<\/?[^>]+>/gi, '');
-            // result = JSON.stringify(result)
             let obj = JSON.parse(result);
-            console.log(result)
-
-            let products = document.querySelector(".js-products");
-
+            console.log(obj);
+                        
             if (typeof obj != "undefined"){
                 // valid json
-
+                
+                let products = document.querySelector(".js-products");
                 products.innerHTML = "";
                 
                 for (let i = 0; i < obj.length; i++) {
                     // products.innerHTML += obj[i].description + "<br>";
-                    products.innerHTML += `<div class="card m-2 border-0" style="width:170px; height:170px">
+                    products.innerHTML += `<div class="card m-2 border-0" style="width:170px; height:max-content">
                     <a href="" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
                         <img src="${obj[i].image}" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
                     </a>
@@ -169,7 +182,10 @@
             
         }
 
-        sendData();
+        sendData({
+            dataType: "search",
+            text: "" //search is empty, so load everything
+        });
     </script>
 
     <?php require viewsPath("partials/footer"); ?>
