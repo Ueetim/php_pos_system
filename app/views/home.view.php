@@ -16,91 +16,29 @@
 
             <!-- product -->
             <div class="js-products d-flex" style="overflow-y:auto; height:90%; flex-wrap:wrap; justify-content:center">
-                <!-- <div class="card m-2 border-0" style="width:170px; height:170px">
-                    <a href="" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
-                        <img src="assets/images/drinks-soft-1.jpg" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
-                    </a>
-                    <div class="p-2">
-                        <div class="text-muted">Coca-cola</div>
-                        <div class=""><strong>&#8358;500.00</strong></div>
-                    </div>
-                </div>
+                
+                <!-- products fetched from db -->
 
-                <div class="card m-2 border-0" style="width:170px; height:170px">
-                    <a href="" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
-                        <img src="assets/images/79-790767_free-png-fast-food-burger-png-images-transparent.png" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
-                    </a>
-                    <div class="p-2">
-                        <div class="text-muted">Hamburger</div>
-                        <div class=""><strong>&#8358;1500.00</strong></div>
-                    </div>
-                </div>
-
-                <div class="card m-2 border-0" style="width:170px; height:170px">
-                    <a href="" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
-                        <img src="assets/images/6127_squarerootsquare_677999.jpg" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
-                    </a>
-                    <div class="p-2">
-                        <div class="text-muted">Square drink</div>
-                        <div class=""><strong>&#8358;700.00</strong></div>
-                    </div>
-                </div>
-
-                <div class="card m-2 border-0" style="width:170px; height:170px">
-                    <a href="" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto;">
-                        <img src="assets/images/gettyimages-1321142153-1024x1024.jpg" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
-                    </a>
-                    <div class="p-2">
-                        <div class="text-muted">Cheese burger</div>
-                        <div class=""><strong>&#8358;2000.00</strong></div>
-                    </div>
-                </div> -->
             </div>
             <!-- product ends -->
         </div>
         
 
         <div class="col-4 bg-light p-4 pt-2">
-            <h3 style="display: flex; align-items: center; justify-content:center; gap: 5px">Cart <span class="badge bg-primary rounded-circle" style="font-size:12px">3</span></h3>
+            <h3 style="display: flex; align-items: center; justify-content:center; gap: 5px">Cart <span class="badge bg-primary rounded-circle" style="font-size:12px" id="cart-items">0</span></h3>
 
             <!-- cart begins -->
             <div class="table-responsive" style="height:350px; overflow-y:auto">
                 <table class="table table-striped table-hover">
-                    <tr>
+                    <tr style="border:1px solid white">
                         <th>Image</th>
                         <th>Description</th>
                         <th>Amount</th>
                     </tr>
 
-                    <!-- item -->
-                    <tr>
-                        <td style="width:80px; height:80px"><img src="assets/images/drinks-soft-1.jpg" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto"></td>
-                        <td class="text-primary">
-                            Coca-cola
-                            <div class="input-group mb-3" style="max-width:110px">
-                                <span class="input-group-text text-primary" style="cursor:pointer">-</span>
-                                <input type="text" class="form-control" placeholder="1" value="1">
-                                <span class="input-group-text text-primary" style="cursor:pointer">+</span>
-                            </div>
-                        </td>
-                        <td><strong>&#8358;500.00</strong></td>
-                    </tr>
-                    <!-- item ends -->
-
-                    <!-- item -->
-                    <tr>
-                        <td style="width:80px; height:80px"><img src="assets/images/gettyimages-1321142153-1024x1024.jpg" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto"></td>
-                        <td class="text-primary">
-                            Cheese burger
-                            <div class="input-group mb-3" style="max-width:110px">
-                                <span class="input-group-text text-primary" style="cursor:pointer">-</span>
-                                <input type="text" class="form-control" placeholder="1" value="1">
-                                <span class="input-group-text text-primary" style="cursor:pointer">+</span>
-                            </div>
-                        </td>
-                        <td><strong>&#8358;2000.00</strong></td>
-                    </tr>
-                    <!-- item ends -->
+                    <tbody class="js-items" >
+                        <!-- item -->
+                    </tbody>
                 </table>
             </div>
             <!-- cart ends -->
@@ -117,12 +55,13 @@
     </div>
 
     <script>
+        let productsArr = [];
+        let items = [];
 
         // search feature
         let searchBox = document.querySelector('#js-search');
         searchBox.addEventListener('input', (e)=>{
             let text = e.target.value.trim();
-            console.log(text);
             // if (text == "") 
                 // return;
             
@@ -158,28 +97,78 @@
         // process the received result
         function handleResult(result){
             let obj = JSON.parse(result);
-            console.log(obj);
                         
             if (typeof obj != "undefined"){
                 // valid json
-                
-                let products = document.querySelector(".js-products");
-                products.innerHTML = "";
-                
-                for (let i = 0; i < obj.length; i++) {
-                    // products.innerHTML += obj[i].description + "<br>";
-                    products.innerHTML += `<div class="card m-2 border-0" style="width:170px; height:max-content">
-                    <a href="" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
-                        <img src="${obj[i].image}" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
-                    </a>
-                    <div class="p-2">
-                        <div class="text-muted">${obj[i].description}</div>
-                        <div class=""><strong>&#8358;${obj[i].amount}</strong></div>
-                    </div>
-                </div>`;
+                if (obj.dataType == 'search'){
+                    let products = document.querySelector(".js-products");
+                    products.innerHTML = "";
+
+                    productsArr = [];
+                    
+                    if (obj.data != ""){
+
+                        productsArr = obj.data;
+
+                        for (let i = 0; i < obj.data.length; i++) {
+                            products.innerHTML += `<div class="card m-2 border-0" style="width:170px; height:max-content">
+                            <a style="cursor:pointer; object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
+                                <img src="${obj.data[i].image}" alt="" onclick="addItem(event)" class="product-img w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto" data-name="${obj.data[i].description}" data-amount="${obj.data[i].amount}" data-id='${obj.data[i].id}'>
+                            </a>
+                            <div class="p-2">
+                                <div class="text-muted">${obj.data[i].description}</div>
+                                <div class=""><strong>&#8358;${obj.data[i].amount}</strong></div>
+                            </div>
+                        </div>`;
+                        }
+                    }
                 }
             }
-            
+        }
+
+        // add clicked items to cart
+        // let prodImg = document.querySelectorAll('.product-img');
+
+        // prodImg.forEach((item)=>{
+        //     item.addEventListener('click', ()=>{
+        //         console.log('hey');
+        //     })
+        // })
+
+        let cartCont = document.querySelector('.js-items');
+
+        function addItem(e) {
+            if (!e.target.classList.contains('added')){
+                cartCont.innerHTML += `<tr class="product" id="${e.target.dataset.id}">
+                            <td style="width:80px; height:80px"><img src="${e.target.src}" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto"></td>
+                            <td class="text-primary">
+                            ${e.target.dataset.name}
+                                <div class="input-group mb-3" style="max-width:110px">
+                                    <span class="input-group-text text-primary" style="cursor:pointer">-</span>
+                                    <input class="prodInput" type="text" class="form-control" placeholder="" value="1" style="border:none; max-width: 40px">
+                                    <span class="input-group-text text-primary" style="cursor:pointer">+</span>
+                                </div>
+                            </td>
+                            <td><strong>&#8358;${e.target.dataset.amount}</strong></td>
+                        </tr>`;
+                e.target.classList.add('added');
+
+                // update cart items
+                let cartItems = document.getElementById('cart-items');
+                cartNum = parseInt(cartItems.textContent);
+                cartNum += 1;
+                cartItems.textContent = cartNum;
+            } else {
+                let products = cartCont.querySelectorAll('.product');
+                products.forEach((prod)=>{
+                    if (prod.id == e.target.dataset.id){
+                        let prodInput = prod.querySelector('.prodInput');
+                        let val = prodInput.value;
+                        val = parseInt(val);
+                        prodInput.value = val + 1;
+                    }
+                })
+            }
         }
 
         sendData({

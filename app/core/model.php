@@ -111,7 +111,7 @@ class Model extends Database
         }
 
         $query = trim($query, ","); //remove the last comma
-
+        
         $query .= " where id = :id";
 
         $clean_array['id'] = $id;
