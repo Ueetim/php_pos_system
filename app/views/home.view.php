@@ -137,15 +137,20 @@
 
         let cartCont = document.querySelector('.js-items');
 
+        let prodObj = {};
+
         function addItem(e) {
             if (!e.target.classList.contains('added')){
+
+                prodObj[`${e.target.dataset.id}`] = 1;
+
                 cartCont.innerHTML += `<tr class="product" id="${e.target.dataset.id}">
                             <td style="width:80px; height:80px"><img src="${e.target.src}" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto"></td>
                             <td class="text-primary">
                             ${e.target.dataset.name}
                                 <div class="input-group mb-3" style="max-width:110px">
                                     <span class="input-group-text text-primary" style="cursor:pointer">-</span>
-                                    <input class="prodInput" type="text" class="form-control" placeholder="" value="1" style="border:none; max-width: 40px">
+                                    <input class="prodInput" type="text" class="form-control" placeholder="" value="${prodObj[`${e.target.dataset.id}`]}" style="border:none; max-width: 40px">
                                     <span class="input-group-text text-primary" style="cursor:pointer">+</span>
                                 </div>
                             </td>
@@ -153,19 +158,26 @@
                         </tr>`;
                 e.target.classList.add('added');
 
+                // retain value of qty of older items when new item is clicked
+                let products = cartCont.querySelectorAll('.product');
+                products.forEach((prod)=>{
+                    let prodInput = prod.querySelector('.prodInput');
+                    prodInput.value = prodObj[`${prod.id}`];
+                })
+
                 // update cart items
                 let cartItems = document.getElementById('cart-items');
                 cartNum = parseInt(cartItems.textContent);
                 cartNum += 1;
                 cartItems.textContent = cartNum;
             } else {
+                prodObj[`${e.target.dataset.id}`] += 1;
+                
                 let products = cartCont.querySelectorAll('.product');
                 products.forEach((prod)=>{
                     if (prod.id == e.target.dataset.id){
                         let prodInput = prod.querySelector('.prodInput');
-                        let val = prodInput.value;
-                        val = parseInt(val);
-                        prodInput.value = val + 1;
+                        prodInput.value = prodObj[`${e.target.dataset.id}`];
                     }
                 })
             }
