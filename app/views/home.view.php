@@ -126,25 +126,19 @@
             }
         }
 
-        // add clicked items to cart
-        // let prodImg = document.querySelectorAll('.product-img');
-
-        // prodImg.forEach((item)=>{
-        //     item.addEventListener('click', ()=>{
-        //         console.log('hey');
-        //     })
-        // })
-
+        
         let cartCont = document.querySelector('.js-items');
 
         let prodObj = {};
 
+        // number of items in cart
         let cartItems = document.getElementById('cart-items');
         cartNum = parseInt(cartItems.textContent);
 
         function addItem(e) {
             if (!e.target.classList.contains('added')){
 
+                // store value and amount in object
                 prodObj[`${e.target.dataset.id}`] = [1, parseInt(e.target.dataset.amount)];
 
 
@@ -155,9 +149,9 @@
                             <td class="text-primary">
                             ${e.target.dataset.name}
                                 <div class="input-group mb-3" style="max-width:110px">
-                                    <span class="input-group-text text-primary" style="cursor:pointer">-</span>
-                                    <input class="prodInput" type="text" class="form-control" placeholder="" value="${prodObj[`${e.target.dataset.id}`][0]}" style="border:none; max-width: 40px">
-                                    <span class="input-group-text text-primary" style="cursor:pointer">+</span>
+                                    <span style="user-select:none; cursor:pointer" class="input-group-text text-primary">-</span>
+                                    <input class="prodInput" type="text" class="form-control" placeholder="" value="${prodObj[`${e.target.dataset.id}`][0]}" style="border:none; max-width: 40px" disabled>
+                                    <span style="user-select:none; cursor:pointer" class="input-group-text text-primary">+</span>
                                 </div>
                             </td>
                             <td style="position:relative;">
@@ -176,31 +170,26 @@
                     prodInput.value = prodObj[`${prod.id}`][0];
                 })
 
-                // update cart items
-                
+                // update number of cart items
                 cartNum += 1;
                 cartItems.textContent = cartNum;
             } else {
+                // increment value by 1
                 prodObj[`${e.target.dataset.id}`][0] += 1;
                 
+                // increment amount based on value
                 let products = cartCont.querySelectorAll('.product');
                 products.forEach((prod)=>{
                     if (prod.id == e.target.dataset.id){
                         let prodInput = prod.querySelector('.prodInput');
                         prodInput.value = prodObj[`${e.target.dataset.id}`][0];
 
+                        // amount object property equals the item amount * quantity(value)
                         prodObj[`${e.target.dataset.id}`][1] = e.target.dataset.amount * prodObj[`${e.target.dataset.id}`][0];
                         
                         prod.querySelector('.product-amount').textContent = `₦${prodObj[`${e.target.dataset.id}`][1]}`;
-
-                        console.log(prodObj);
                     }
                 })
-
-                // let amt = document.querySelectorAll('.product-amount');
-                // amt.forEach((amount)=>{
-
-                // })
             }
         }
 
