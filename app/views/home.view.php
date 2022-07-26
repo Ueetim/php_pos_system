@@ -145,7 +145,7 @@
         function addItem(e) {
             if (!e.target.classList.contains('added')){
 
-                prodObj[`${e.target.dataset.id}`] = 1;
+                prodObj[`${e.target.dataset.id}`] = [1, parseInt(e.target.dataset.amount)];
 
 
                 cartCont.innerHTML += `<tr class="product" id="${e.target.dataset.id}">
@@ -156,12 +156,12 @@
                             ${e.target.dataset.name}
                                 <div class="input-group mb-3" style="max-width:110px">
                                     <span class="input-group-text text-primary" style="cursor:pointer">-</span>
-                                    <input class="prodInput" type="text" class="form-control" placeholder="" value="${prodObj[`${e.target.dataset.id}`]}" style="border:none; max-width: 40px">
+                                    <input class="prodInput" type="text" class="form-control" placeholder="" value="${prodObj[`${e.target.dataset.id}`][0]}" style="border:none; max-width: 40px">
                                     <span class="input-group-text text-primary" style="cursor:pointer">+</span>
                                 </div>
                             </td>
                             <td style="position:relative;">
-                                <strong>&#8358;${e.target.dataset.amount}</strong>
+                                <strong class="product-amount">&#8358;${e.target.dataset.amount * prodObj[`${e.target.dataset.id}`][0]}</strong>
                                 <button onclick="removeItem(event)" class="btn-danger" style="border:none; width: calc(100% - 20px); height: 30px; border-radius: 3px; position: absolute; right: 20px; bottom: 25px; font-size:13px">Remove 
                                     <i class="fa fa-trash"></i>
                                 </button>
@@ -173,7 +173,7 @@
                 let products = cartCont.querySelectorAll('.product');
                 products.forEach((prod)=>{
                     let prodInput = prod.querySelector('.prodInput');
-                    prodInput.value = prodObj[`${prod.id}`];
+                    prodInput.value = prodObj[`${prod.id}`][0];
                 })
 
                 // update cart items
@@ -181,15 +181,26 @@
                 cartNum += 1;
                 cartItems.textContent = cartNum;
             } else {
-                prodObj[`${e.target.dataset.id}`] += 1;
+                prodObj[`${e.target.dataset.id}`][0] += 1;
                 
                 let products = cartCont.querySelectorAll('.product');
                 products.forEach((prod)=>{
                     if (prod.id == e.target.dataset.id){
                         let prodInput = prod.querySelector('.prodInput');
-                        prodInput.value = prodObj[`${e.target.dataset.id}`];
+                        prodInput.value = prodObj[`${e.target.dataset.id}`][0];
+
+                        prodObj[`${e.target.dataset.id}`][1] = e.target.dataset.amount * prodObj[`${e.target.dataset.id}`][0];
+                        
+                        prod.querySelector('.product-amount').textContent = `₦${prodObj[`${e.target.dataset.id}`][1]}`;
+
+                        console.log(prodObj);
                     }
                 })
+
+                // let amt = document.querySelectorAll('.product-amount');
+                // amt.forEach((amount)=>{
+
+                // })
             }
         }
 
