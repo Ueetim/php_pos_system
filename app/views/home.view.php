@@ -48,7 +48,7 @@
             <!-- checkout -->
             <div>
                 <button class="btn btn-success my-1 w-100">Checkout</button>
-                <button class="btn btn-primary my-1 w-100">Clear All</button>
+                <button class="btn btn-primary my-1 w-100" onclick="removeAll()">Clear All</button>
             </div>
         </div>
         
@@ -139,13 +139,19 @@
 
         let prodObj = {};
 
+        let cartItems = document.getElementById('cart-items');
+        cartNum = parseInt(cartItems.textContent);
+
         function addItem(e) {
             if (!e.target.classList.contains('added')){
 
                 prodObj[`${e.target.dataset.id}`] = 1;
 
+
                 cartCont.innerHTML += `<tr class="product" id="${e.target.dataset.id}">
-                            <td style="width:80px; height:80px"><img src="${e.target.src}" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto"></td>
+                            <td style="width:80px; height:80px">
+                                <img src="${e.target.src}" alt="" class="w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
+                            </td>
                             <td class="text-primary">
                             ${e.target.dataset.name}
                                 <div class="input-group mb-3" style="max-width:110px">
@@ -154,7 +160,12 @@
                                     <span class="input-group-text text-primary" style="cursor:pointer">+</span>
                                 </div>
                             </td>
-                            <td><strong>&#8358;${e.target.dataset.amount}</strong></td>
+                            <td style="position:relative;">
+                                <strong>&#8358;${e.target.dataset.amount}</strong>
+                                <button onclick="removeItem(event)" class="btn-danger" style="border:none; width: calc(100% - 20px); height: 30px; border-radius: 3px; position: absolute; right: 20px; bottom: 25px; font-size:13px">Remove 
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
                         </tr>`;
                 e.target.classList.add('added');
 
@@ -166,8 +177,7 @@
                 })
 
                 // update cart items
-                let cartItems = document.getElementById('cart-items');
-                cartNum = parseInt(cartItems.textContent);
+                
                 cartNum += 1;
                 cartItems.textContent = cartNum;
             } else {
@@ -181,6 +191,40 @@
                     }
                 })
             }
+        }
+
+        // remove item from cart
+        function removeItem(e){
+            let cartItem = e.target.parentNode.parentNode;
+            let cartList = document.querySelectorAll('.product-img');
+            cartList.forEach((cart)=>{
+                if (cart.dataset.id == cartItem.id){
+                    cart.classList.remove('added');
+                    delete prodObj[cart.dataset.id]
+                }
+            })
+        
+            cartItem.remove();
+
+            cartNum -= 1;
+            cartItems.textContent = cartNum;
+        }
+
+        // remove all items
+        function removeAll() {
+            cartCont.innerHTML = '';
+            prodObj = {};
+            console.log(prodObj);
+
+            let cartList = document.querySelectorAll('.product-img');
+            cartList.forEach((cart)=>{
+                if (cart.classList.contains('added')){
+                    cart.classList.remove('added');
+                }
+            })
+
+            cartNum = 0;
+            cartItems.textContent = cartNum;
         }
 
         sendData({
