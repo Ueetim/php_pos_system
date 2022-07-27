@@ -292,7 +292,17 @@
             totalAmount.textContent = "Total: ₦0";
         }
 
-        
+        function incrementTotal() {
+            let amount = 0;
+            for (key in prodObj) {
+                // console.log(prodObj[key][1]);
+
+                amount += prodObj[key][1];
+
+            }
+            console.log(totalAmount)
+            totalAmount.textContent = "Total: ₦" + amount;
+        }
 
         sendData({
             dataType: "search",
