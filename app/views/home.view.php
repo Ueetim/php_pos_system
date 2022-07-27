@@ -113,7 +113,7 @@
                         for (let i = 0; i < obj.data.length; i++) {
                             products.innerHTML += `<div class="card m-2 border-0" style="width:170px; height:max-content">
                             <a style="cursor:pointer; object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto">
-                                <img src="${obj.data[i].image}" alt="" onclick="addItem(event)" class="product-img w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto" data-name="${obj.data[i].description}" data-amount="${obj.data[i].amount}" data-id='${obj.data[i].id}'>
+                                <img src="${obj.data[i].image}" alt="" onclick="addItem(event)" class="product-img w-100 rounded border" style="object-fit:contain; max-width:100%; max-height:100%; width:auto; height:auto;" data-name="${obj.data[i].description}" data-amount="${obj.data[i].amount}" data-id='${obj.data[i].id}'>
                             </a>
                             <div class="p-2">
                                 <div class="text-muted">${obj.data[i].description}</div>
@@ -153,7 +153,7 @@
                             ${e.target.dataset.name}
                                 <div class="input-group mb-3" style="max-width:110px">
                                     <span style="user-select:none; cursor:pointer" class="minus input-group-text text-primary" onclick="decrement(event)">-</span>
-                                    <input class="prodInput" type="text" class="form-control" placeholder="" value="${prodObj[`${e.target.dataset.id}`][0]}" style="border:none; max-width: 40px" disabled>
+                                    <input class="prodInput" type="text" class="form-control" placeholder="" value="${prodObj[`${e.target.dataset.id}`][0]}" style="border:1px solid #d6d6d6; max-width: 40px" disabled>
                                     <span style="user-select:none; cursor:pointer" class="plus input-group-text text-primary" onclick="increment(event)">+</span>
                                 </div>
                             </td>
