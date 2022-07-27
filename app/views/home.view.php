@@ -4,8 +4,8 @@
         <h2 style="text-align:center"><?=APP_NAME?></h2>
     </div>
 
-    <div class="d-flex p-5">
-        <div style="height:600px" class="border col-8 p-4">
+    <div class="d-flex p-5 items-cart-con">
+        <div class="border col-8 p-4 items-con">
             <div style="text-align:center" class="row">
                 <div class="input-group mb-3" style="display: flex; align-items: center; justify-content:center; gap: 5px">
                     <h5>Items</h5>
@@ -24,7 +24,7 @@
         </div>
         
 
-        <div class="col-4 bg-light p-4 pt-2">
+        <div class="col-4 bg-light p-4 pt-2 cart-con">
             <h3 style="display: flex; align-items: center; justify-content:center; gap: 5px">Cart <span class="badge bg-primary rounded-circle" style="font-size:12px" id="cart-items">0</span></h3>
 
             <!-- cart begins -->
@@ -43,7 +43,7 @@
             </div>
             <!-- cart ends -->
 
-            <div class="alert alert-danger">Total: &#8358;10000.00</div>
+            <div id="totalAmount" class="alert alert-danger">Total: &#8358;</div>
 
             <!-- checkout -->
             <div>
@@ -129,6 +129,9 @@
         
         let cartCont = document.querySelector('.js-items');
 
+        let totalAmount = document.getElementById('totalAmount');
+        totalAmount.textContent = "Total: ₦0";
+
         let prodObj = {};
 
         // number of items in cart
@@ -149,9 +152,9 @@
                             <td class="text-primary">
                             ${e.target.dataset.name}
                                 <div class="input-group mb-3" style="max-width:110px">
-                                    <span style="user-select:none; cursor:pointer" class="input-group-text text-primary">-</span>
+                                    <span style="user-select:none; cursor:pointer" class="minus input-group-text text-primary" onclick="decrement(event)">-</span>
                                     <input class="prodInput" type="text" class="form-control" placeholder="" value="${prodObj[`${e.target.dataset.id}`][0]}" style="border:none; max-width: 40px" disabled>
-                                    <span style="user-select:none; cursor:pointer" class="input-group-text text-primary">+</span>
+                                    <span style="user-select:none; cursor:pointer" class="plus input-group-text text-primary" onclick="increment(event)">+</span>
                                 </div>
                             </td>
                             <td style="position:relative;">
@@ -191,6 +194,64 @@
                     }
                 })
             }
+
+            incrementTotal()
+        }
+
+        // decrement on click of minus button
+        function decrement(e){
+            let productId = e.target.parentNode.parentNode.parentNode.id;
+
+            // update array
+            prodObj[`${productId}`][0] -= 1;
+
+            if (prodObj[`${productId}`][0] <= 1) {
+                prodObj[`${productId}`][0] = 1;
+            }
+
+            // decrement quantity
+            e.target.nextElementSibling.value = prodObj[`${productId}`][0];
+
+            // decrement price
+
+            let item = document.querySelectorAll('.card');
+            item.forEach((prodItem)=>{
+                prodImg = prodItem.querySelector('.product-img');
+                if (prodImg.dataset.id == productId){
+                    prodObj[`${productId}`][1] = prodImg.dataset.amount * prodObj[`${productId}`][0];
+
+                    let prodPrice = e.target.parentNode.parentNode.nextElementSibling.firstElementChild;
+                    prodPrice.textContent = `₦${prodObj[`${productId}`][1]}`;
+                }
+            })
+
+            incrementTotal()
+        }
+
+        // increment on click of plus button
+        function increment(e){
+            let productId = e.target.parentNode.parentNode.parentNode.id;
+
+            // update array
+            prodObj[`${productId}`][0] += 1;
+
+            // increment quantity
+            e.target.parentNode.firstElementChild.nextElementSibling.value = prodObj[`${productId}`][0];
+
+            // increment price
+
+            let item = document.querySelectorAll('.card');
+            item.forEach((prodItem)=>{
+                prodImg = prodItem.querySelector('.product-img');
+                if (prodImg.dataset.id == productId){
+                    prodObj[`${productId}`][1] = prodImg.dataset.amount * prodObj[`${productId}`][0];
+
+                    let prodPrice = e.target.parentNode.parentNode.nextElementSibling.firstElementChild;
+                    prodPrice.textContent = `₦${prodObj[`${productId}`][1]}`;
+                }
+            })
+
+            incrementTotal();
         }
 
         // remove item from cart
@@ -208,6 +269,8 @@
 
             cartNum -= 1;
             cartItems.textContent = cartNum;
+
+            incrementTotal()
         }
 
         // remove all items
@@ -225,7 +288,11 @@
 
             cartNum = 0;
             cartItems.textContent = cartNum;
+
+            totalAmount.textContent = "Total: ₦0";
         }
+
+        
 
         sendData({
             dataType: "search",

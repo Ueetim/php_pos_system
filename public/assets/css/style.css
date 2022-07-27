@@ -1,3 +1,25 @@
 a {
     text-decoration: none !important;
 }
+
+.cart-con {
+    min-width: 370px;
+}
+
+.items-con {
+    height:600px; 
+    max-width:calc(100% - 370px)
+    /* width: 100%; */
+}
+
+@media only screen and (max-width: 750px) {
+    .items-cart-con {
+        flex-direction: column;
+    }
+
+    .items-con, .cart-con {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+    }
+}

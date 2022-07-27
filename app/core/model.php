@@ -47,16 +47,27 @@ class Model extends Database
     {
         $keys = array_keys($data);
 
-        $query = "SELECT * FROM $this->table WHERE ";
+        // for users table, ignore limit, order and offset
+        if ($this->table == 'users'){
+            $query = "SELECT * FROM $this->table WHERE ";
 
-        foreach ($keys as $key) {
-            $query .= "$key = :$key && ";
+            foreach ($keys as $key) {
+                $query .= "$key = :$key && ";
+            }
+
+            $query = trim($query, "&& ");
+        } else {
+            $query = "SELECT * FROM $this->table WHERE ";
+
+            foreach ($keys as $key) {
+                $query .= "$key = :$key && ";
+            }
+
+            $query = trim($query, "&& ");
+
+            // limit and offset needed for pagination
+            $query .= " order by $order_column $order limit $limit offset $offset";
         }
-
-        $query = trim($query, "&& ");
-
-        // limit and offset needed for pagination
-        $query .= " order by $order_column $order limit $limit offset $offset";
 
         $db = new Database;
 
