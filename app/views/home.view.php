@@ -256,7 +256,13 @@
 
         // remove item from cart
         function removeItem(e){
-            let cartItem = e.target.parentNode.parentNode;
+            let cartItem = e.target.parentElement.parentElement;
+
+            // fix bug causing error when icon is clicked
+            if (!cartItem.classList.contains('product')) {
+                cartItem = cartItem.parentNode;
+            }
+
             let cartList = document.querySelectorAll('.product-img');
             cartList.forEach((cart)=>{
                 if (cart.dataset.id == cartItem.id){
@@ -264,7 +270,11 @@
                     delete prodObj[cart.dataset.id]
                 }
             })
-        
+
+            // console.log(cartItem);
+            
+            // cartItem.parentNode.removeChild(cartItem);
+
             cartItem.remove();
 
             cartNum -= 1;
@@ -277,7 +287,7 @@
         function removeAll() {
             cartCont.innerHTML = '';
             prodObj = {};
-            console.log(prodObj);
+            // console.log(prodObj);
 
             let cartList = document.querySelectorAll('.product-img');
             cartList.forEach((cart)=>{
@@ -300,7 +310,7 @@
                 amount += prodObj[key][1];
 
             }
-            console.log(totalAmount)
+            // console.log(totalAmount)
             totalAmount.textContent = "Total: ₦" + amount;
         }
 
