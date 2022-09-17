@@ -4,6 +4,27 @@
         <h2 style="text-align:center"><?=APP_NAME?></h2>
     </div>
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="modal-success">Yes</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="d-flex p-5 items-cart-con">
         <div class="border col-8 p-4 items-con">
             <div style="text-align:center" class="row">
@@ -48,11 +69,12 @@
             <!-- checkout -->
             <div>
                 <button class="btn btn-success my-1 w-100">Checkout</button>
-                <button class="btn btn-primary my-1 w-100" onclick="removeAll()">Clear All</button>
+                <button class="btn btn-primary my-1 w-100" onclick="modalClearAll()" data-bs-toggle="modal" data-bs-target="#exampleModal">Clear All</button>
             </div>
         </div>
         
     </div>
+
 
     <script>
         let productsArr = [];
@@ -125,6 +147,12 @@
                 }
             }
         }
+
+        // MODAL
+        let modal = document.querySelector('#exampleModal');
+        let modalTitle = modal.querySelector('#exampleModalLabel');
+        let modalContent = modal.querySelector('.modal-body');
+        let modalSuccess = modal.querySelector('#modal-success');
 
         
         let cartCont = document.querySelector('.js-items');
@@ -267,7 +295,7 @@
             cartList.forEach((cart)=>{
                 if (cart.dataset.id == cartItem.id){
                     cart.classList.remove('added');
-                    delete prodObj[cart.dataset.id]
+                    delete prodObj[cart.dataset.id];
                 }
             })
 
@@ -284,6 +312,15 @@
         }
 
         // remove all items
+        function modalClearAll() {
+            modalTitle.textContent = 'Empty cart';
+            modalContent.textContent = 'Are you sure you want to remove all items from the cart?';
+            modalSuccess.addEventListener('click', ()=>{
+                removeAll();
+            })
+
+        }
+
         function removeAll() {
             cartCont.innerHTML = '';
             prodObj = {};
