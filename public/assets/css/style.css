@@ -1,9 +1,25 @@
+*::-webkit-scrollbar {
+    background-color: rgb(225, 225, 225);
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.034);
+    border-radius: 4px;
+    width: 7px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #727272;
+    border-radius: 4px;
+}
+
 a {
     text-decoration: none !important;
 }
 
 .cart-con {
     min-width: 370px;
+}
+
+.rmv-btn {
+    min-width: 75px;
 }
 
 .items-con {
