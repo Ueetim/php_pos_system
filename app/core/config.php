@@ -1,3 +1,3 @@
 <?php 
 
-define("APP_NAME", "My POS"); //create a constant (name, value)
+define("APP_NAME", "I-POS"); //create a constant (name, value)

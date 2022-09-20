@@ -39,3 +39,27 @@ a {
         max-width: 100%;
     }
 }
+
+.skeleton * {
+    background-color: #ededed;
+    background-position:
+			0 0, /* circle */
+			0 0, /* highlight */
+			120px 0,
+			120px 40px,
+			120px 80px,
+			120px 120px;
+
+    margin-bottom: 5px;
+    border-radius: 5px;
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+    0% {
+      background-color: hsl(200, 20%, 80%);
+    }
+    100% {
+      background-color: hsl(200, 20%, 95%);
+    }
+  }
